@@ -1,4 +1,6 @@
 
+This wraps the ssh2 module and provides an easy way to go between executing commands, sftp commands and even shell commands.
+
 ## example
 
 ```
