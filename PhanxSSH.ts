@@ -66,7 +66,9 @@ export class PhanxSSH {
         let conn = this.client;
 
         return new Promise(resolve => {
-
+            conn.on('error', (err)=> {
+                console.error(err);
+            });
             conn.on('ready', () => {
                 resolve();
             }).connect({
@@ -85,7 +87,7 @@ export class PhanxSSH {
      * Ends the connection.
      */
     public end() {
-        this.client.end();
+        return this.client.end();
     }
 
     //########################################################################

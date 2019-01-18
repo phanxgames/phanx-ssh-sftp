@@ -50,7 +50,7 @@ export declare class PhanxSSH {
     /**
      * Ends the connection.
      */
-    end(): void;
+    end(): any;
     /**
      * For atomic command execution.
      *
@@ -229,8 +229,8 @@ export declare class PhanxSSH {
      * @returns {string} returns command as string, pass to exec
      */
     ftpPut(ftp: any, localFile: string, remoteFile: string): string;
-    private _escapePassword;
-    private _asyncForEach;
+    private _escapePassword(password);
+    private _asyncForEach(array, callback);
     debug(...args: any[]): void;
     static loadPrivateKey(config: any): void;
 }
