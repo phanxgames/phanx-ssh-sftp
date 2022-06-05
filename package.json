@@ -4,8 +4,8 @@
   "description": "Ssh2 TypeScript client with sftp, exec and shell support",
   "main": "PhanxSSH.js",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/phanxgames/phanx-ssh-sftp.git"
+    "type": "git",
+    "url": "https://github.com/phanxgames/phanx-ssh-sftp.git"
   },
   "dependencies": {
     "@types/node": "^10.12.18",

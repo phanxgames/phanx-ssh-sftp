@@ -75,7 +75,8 @@ export class PhanxSSH {
                 host: config.host,
                 port: config.port,
                 username: config.username,
-                privateKey: config.privateKey
+                password: config.password || undefined,
+                privateKey: config.privateKey || undefined
             });
 
         })
