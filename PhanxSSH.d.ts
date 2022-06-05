@@ -229,8 +229,8 @@ export declare class PhanxSSH {
      * @returns {string} returns command as string, pass to exec
      */
     ftpPut(ftp: any, localFile: string, remoteFile: string): string;
-    private _escapePassword(password);
-    private _asyncForEach(array, callback);
+    private _escapePassword;
+    private _asyncForEach;
     debug(...args: any[]): void;
     static loadPrivateKey(config: any): void;
 }
