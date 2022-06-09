@@ -119,40 +119,56 @@ class PhanxSSH {
     }
     /**
      * Execute a command within a shell stream.
-     * Will resolve the promise once the shell returns nothing for timeout duration.
-     *      This is a nasty workaround until we figure out how to detect a command
-     *      naturally completes.
+     * Will resolve the promise once the shell command finishes or the timeout is met.
      *
      * @param {string} c - command
      * @param {IShell} shell (default last stream) stream
-     * @param timeout_ms (default: 500) - number in ms
+     * @param timeout_ms (default: 0 - no timeout) - number in ms
      * @returns {Promise}
      */
-    shellExec(c, shell = null, timeout_ms = 500) {
+    shellExec(c, shell = null, timeout_ms = 0) {
         if (shell == null)
             shell = this._shell;
+        const CMD_ = "__CMDEOL_"; //28len
+        const _EOL = "9u43jihgt0i3u9io3__";
         return new Promise(resolve => {
             let timer = null;
+            let buffer = '';
+            let fullBuffer = '';
             let onData = (data) => {
                 buffer += data;
+                fullBuffer += data;
                 //console.log(data.toString(),data.toString().charCodeAt(0))
-                setupTimeout();
+                if (
+                //buffer.substring(buffer.length-28)==CMD_EOL ||
+                buffer.indexOf(CMD_ + _EOL, Math.max(0, buffer.length - 200)) >= 0) {
+                    shell.removeListener('data', onData);
+                    setTimeout(() => {
+                        resolve(fullBuffer);
+                    }, 100);
+                    return;
+                }
+                if (timeout_ms > 0)
+                    setupTimeout();
                 if (data.toString().charCodeAt(0) == 13) {
                     this.debug(buffer);
                     buffer = '';
                 }
             };
-            let buffer = '';
             shell.on('data', onData);
-            shell.write(c + "\n");
+            shell.on('close', () => {
+                //console.log("closed");
+            });
+            shell.write(`${c} ; printf '%s%s' ${CMD_} ${_EOL}\n`);
             let setupTimeout = () => {
                 clearTimeout(timer);
                 timer = setTimeout(() => {
                     shell.removeListener('data', onData);
-                    resolve(buffer);
+                    resolve("timeout::" + fullBuffer);
                 }, timeout_ms);
             };
-            setupTimeout();
+            if (timeout_ms > 0)
+                setupTimeout();
         });
     }
     /**

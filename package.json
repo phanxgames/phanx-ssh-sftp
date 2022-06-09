@@ -1,6 +1,6 @@
 {
   "name": "phanx-ssh-sftp",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Ssh2 TypeScript client with sftp, exec and shell support",
   "main": "PhanxSSH.js",
   "repository": {

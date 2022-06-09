@@ -70,13 +70,11 @@ export declare class PhanxSSH {
     shell(): Promise<IShell>;
     /**
      * Execute a command within a shell stream.
-     * Will resolve the promise once the shell returns nothing for timeout duration.
-     *      This is a nasty workaround until we figure out how to detect a command
-     *      naturally completes.
+     * Will resolve the promise once the shell command finishes or the timeout is met.
      *
      * @param {string} c - command
      * @param {IShell} shell (default last stream) stream
-     * @param timeout_ms (default: 500) - number in ms
+     * @param timeout_ms (default: 0 - no timeout) - number in ms
      * @returns {Promise}
      */
     shellExec(c: string, shell?: IShell, timeout_ms?: number): Promise<string>;
